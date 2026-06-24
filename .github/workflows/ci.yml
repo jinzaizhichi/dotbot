@@ -35,7 +35,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: "Test: Python ${{ matrix.python }} on ${{ matrix.os }}"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
       - uses: pypa/hatch@install
@@ -51,21 +51,28 @@ jobs:
     name: Type check
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: pypa/hatch@install
       - run: hatch run types:check
   fmt:
-    name: Format and lint
+    name: Format
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: pypa/hatch@install
-      - run: hatch fmt --check
+      - run: hatch check fmt
+  lint:
+    name: Lint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pypa/hatch@install
+      - run: hatch check code
   changelog:
     name: Check changelog
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           fetch-tags: true
